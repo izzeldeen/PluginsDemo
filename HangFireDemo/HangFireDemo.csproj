@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.4.0" />
     <PackageReference Include="Hangfire" Version="1.8.2" />
     <PackageReference Include="Hangfire.Dashboard.Authorization" Version="3.0.1" />
     <PackageReference Include="Hangfire.SqlServer" Version="1.8.2" />

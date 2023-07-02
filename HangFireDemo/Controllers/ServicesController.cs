@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Reflection;
 using BLogic;
+using Autofac.Core;
 
 namespace HangFireDemo.Controllers
 {
@@ -14,10 +15,9 @@ namespace HangFireDemo.Controllers
     [ApiController]
     public class ServicesController : ControllerBase
     {
-        private IServiceProvider serviceProvider;
-        public ServicesController(IServiceProvider serviceProvider)
+        
+        public ServicesController()
         {
-            this.serviceProvider = serviceProvider;
         }
 
 
@@ -25,16 +25,10 @@ namespace HangFireDemo.Controllers
         public IActionResult RegisterServices([FromForm] string dllName)
         {
             (from t in Assembly.LoadFrom(@dllName).GetTypes()
-                 //  where t.IsSubclassOf(typeof(ITaskServices))
              select t).ToList().ForEach(delegate (Type a)
              {
-                 //if (a is ITaskServices)
-                 //{
                  Type inter = a.GetInterfaces().FirstOrDefault();
-                 ServiceCollectionProvider.Services.AddTransient(inter, a);
-                 // }
-
-
+                 ServiceCollectionProvider.ServiceCollections = ServiceCollectionProvider.RegisterService(inter, a);
              });
 
             return Ok("Added");
